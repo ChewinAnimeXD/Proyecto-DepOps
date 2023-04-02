@@ -1,4 +1,4 @@
-name: DepOps-Flujo-de-trabajo
+name: DevOps-Flujo-de-trabajo
 
 on:
   push:
