@@ -1,0 +1,88 @@
+name: DepOps-Flujo-de-trabajo
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+        
+  deploy_on_dev:
+    name: Deploy on Dev
+    runs-on: ubuntu-latest
+    environment:
+      name: dev
+      url: ${{ steps.fa.outputs.app-url }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      
+      - name: setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+      
+      - name: Dependecies
+        run: npm ci
+        
+  deploy_on_qa:
+    name: Deploy on QA
+    runs-on: ubuntu-latest
+    needs: deploy_on_dev
+    environment:
+      name: qa
+      url: ${{ steps.fa.outputs.app-url }}     
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      
+      - name: setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+      
+      - name: Dependecies
+        run: npm ci
+      
+      - name: Build
+        run: npm run build
+        
+  deploy_on_prod:
+    name: Deploy on Prod
+    runs-on: ubuntu-latest
+    needs: deploy_on_qa
+    environment:
+      name: prod
+      url: ${{ steps.fa.outputs.app-url }}
+    steps: 
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      
+      - name: setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+      
+      - name: Dependecies
+        run: npm ci
+      
+      - name: Build
+        run: npm run build
+        
+      - name: Save version
+        id: version
+        run: echo ::tag=$(echo $(node -p -e "require('./package.json').version")) >> $GITHUB_OUTPUT
+        
+      - name: Increase version
+        run: npm version patch
+        
+      - name: Push new version
+        run: git push 
