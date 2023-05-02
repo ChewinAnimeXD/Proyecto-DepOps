@@ -63,8 +63,8 @@ jobs:
       - name: Setup FTP
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
-          ftp-server: ftp.yourdomain.com
-          ftp-username: b7_34125153
-          ftp-password: camilo97
+          server: ftp.yourdomain.com
+          username: b7_34125153
+          password: camilo97
           local-dir: /htdocs
           server-dir: ftpupload.net
