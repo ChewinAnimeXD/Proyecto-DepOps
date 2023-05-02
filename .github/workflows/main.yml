@@ -66,5 +66,5 @@ jobs:
           server: ftp.yourdomain.com
           username: b7_34125153
           password: camilo97
-          local-dir: b7_34125153@ftpupload.net/htdocs/
+          local-dir: ftpupload.net/htdocs/
           server-dir: ftpupload.net/
