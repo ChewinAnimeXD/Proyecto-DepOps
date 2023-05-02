@@ -67,4 +67,4 @@ jobs:
           username: b7_34125153
           password: camilo97
           local-dir: /htdocs/
-          server-dir: ftpupload.net
+          server-dir: ftpupload.net/
