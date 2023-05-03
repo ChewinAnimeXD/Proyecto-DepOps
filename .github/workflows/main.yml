@@ -63,7 +63,7 @@ jobs:
         with:
           fetch-depth: 2
       - name: FTP-Deploy-action
-        uses: ChewinAnimeXD/Proyecto-DevOps-Action@3.1.1
+        uses: ChewinAnimeXD/Proyecto-DevOps@3.1.1
         with:  
           ftp-server: ftp.byethost7.com
           ftp-username: b7_34125153
