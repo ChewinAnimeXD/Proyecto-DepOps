@@ -1,14 +1,62 @@
-name: Deploy to FTP
+DevOps-Flujo-de-trabajo
+
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
 jobs:
-  deploy:
+        
+  deploy_on_dev:
+    name: Deploy on Dev
     runs-on: ubuntu-latest
+    environment:
+      name: dev
+      url: ${{ steps.fa.outputs.app-url }}
     steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      
+      - name: setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+      
+      - name: Dependecies
+        run: npm ci
+        
+  deploy_on_qa:
+    name: Deploy on QA
+    runs-on: ubuntu-latest
+    needs: deploy_on_dev
+    environment:
+      name: qa
+      url: ${{ steps.fa.outputs.app-url }}     
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      
+      - name: setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+      
+      - name: Dependecies
+        run: npm ci
+      
+      - name: Build
+        run: npm run build
+        
+  deploy_on_prod:
       - name: Checkout
         uses: actions/checkout@v2
+        needs: deploy_on_qa
       - name: Deploy with FTP
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
