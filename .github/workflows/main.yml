@@ -60,11 +60,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Setup FTP
-        uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
-          server: ftp.yourdomain.com
-          username: b7_34125153
-          password: camilo97
-          local-dir: /home/runner/work/Proyecto-DevOps/Proyecto-DevOps/
-          server-dir: ftpupload.net/
+          fetch-depth: 2
+      - name: FTP-Deploy-action
+        uses: Sankirkland/FTP-Deploy-Action@3.1.1
+        with:  
+          ftp-server: ftp.byethost7.com
+          ftp-username: b7_34125153
+          ftp-password: camilo97         
+
+
