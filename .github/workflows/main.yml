@@ -1,72 +1,21 @@
-name: DevOps-Flujo-de-trabajo
+name: Publish website to Cpanel
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-  workflow_dispatch:
-
+    branches: 
+      - main
+      
 jobs:
-        
-  deploy_on_dev:
-    name: Deploy on Dev
+  FTP-Deploy-Action:
+    name: FTP-Deploy-Action
     runs-on: ubuntu-latest
-    environment:
-      name: dev
-      url: ${{ steps.fa.outputs.app-url }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 14
-      
-      - name: setup git config
-        run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
-      
-      - name: Dependecies
-        run: npm ci
-        
-  deploy_on_qa:
-    name: Deploy on QA
-    runs-on: ubuntu-latest
-    needs: deploy_on_dev
-    environment:
-      name: qa
-      url: ${{ steps.fa.outputs.app-url }}     
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 14
-      
-      - name: setup git config
-        run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
-      
-      - name: Dependecies
-        run: npm ci
-      
-      - name: Build
-        run: npm run build
-        
-  deploy_on_prod:
-    name: Deploy on prod
-    runs-on: ubuntu-latest
-    needs: deploy_on_qa
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - uses: actions/checkout@v2.1.0
         with:
           fetch-depth: 2
       - name: FTP-Deploy-action
-        uses: ChewinAnimeXD/Proyecto-DevOps@4.0.0
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:  
           ftp-server: ftp.byethost7.com
           ftp-username: b7_34125153
-          ftp-password: camilo97         
-
-
+          ftp-password: camilo97 
