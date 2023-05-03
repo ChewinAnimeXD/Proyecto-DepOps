@@ -66,5 +66,5 @@ jobs:
           server: ftp.yourdomain.com
           username: b7_34125153
           password: camilo97
-          local-dir: ./home/vol17_2/byethost7.com/b7_34125153/htdocs/
+          local-dir: ./home/vol17_2/byethost7.com/b7_34125153/
           server-dir: ftpupload.net/
