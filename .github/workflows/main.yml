@@ -1,4 +1,4 @@
-DevOps-Flujo-de-trabajo
+name: DevOps-Flujo-de-trabajo
 
 on:
   push:
@@ -8,7 +8,6 @@ on:
   workflow_dispatch:
 
 jobs:
-        
   deploy_on_dev:
     name: Deploy on Dev
     runs-on: ubuntu-latest
@@ -20,12 +19,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 14
-      
       - name: setup git config
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
-      
       - name: Dependecies
         run: npm ci
         
@@ -35,28 +32,30 @@ jobs:
     needs: deploy_on_dev
     environment:
       name: qa
-      url: ${{ steps.fa.outputs.app-url }}     
+      url: ${{ steps.fa.outputs.app-url }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 14
-      
       - name: setup git config
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
-      
       - name: Dependecies
         run: npm ci
-      
       - name: Build
         run: npm run build
         
   deploy_on_prod:
+    name: Deploy on Prod
+    runs-on: ubuntu-latest
+    needs: deploy_on_qa
+    environment:
+      name: prod
+    steps:
       - name: Checkout
         uses: actions/checkout@v2
-        needs: deploy_on_qa
       - name: Deploy with FTP
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
