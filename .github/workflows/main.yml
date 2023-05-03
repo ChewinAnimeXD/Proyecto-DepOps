@@ -16,6 +16,7 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         source: ./
         target: /htdocs/
+        port: 21
 
 
 
