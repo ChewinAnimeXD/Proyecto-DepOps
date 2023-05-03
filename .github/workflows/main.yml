@@ -15,5 +15,5 @@ jobs:
          ftp-server: ftpupload.net
          ftp-username: b7_34125153
          ftp-password: camilo97
-         server-dir: /htdocs/
+       
 
