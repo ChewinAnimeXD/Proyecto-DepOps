@@ -66,5 +66,5 @@ jobs:
           server: ftp.yourdomain.com
           username: b7_34125153
           password: camilo97
-          local-dir: ${{ github.workspace }}
+          local-dir: /home/runner/work/Proyecto-DevOps/Proyecto-DevOps/
           server-dir: ftpupload.net/
